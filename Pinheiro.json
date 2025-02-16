@@ -1,12 +1,48 @@
-- 👋 Hi, I’m @ruscIi
-- 👀 I’m interested in ...
-- 🌱 I’m currently learning ...
-- 💞️ I’m looking to collaborate on ...
-- 📫 How to reach me ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
-
-<!---
-ruscIi/ruscIi is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+[
+  { "item": "CARBURADOR GERDOR 1", "cautelado": "NÃO", "imagem": "IMG-1", "obs": "6,5" },
+  { "item": "CARBURADOR GERDOR 2", "cautelado": "NÃO", "imagem": "IMG-2", "obs": "6,5" },
+  { "item": "CARBURADOR GERDOR 3", "cautelado": "NÃO", "imagem": "IMG-3", "obs": "6,5" },
+  { "item": "CARBURADOR GERDOR 4", "cautelado": "NÃO", "imagem": "IMG-4", "obs": "6,5" },
+  { "item": "CARBURADOR GERDOR 5", "cautelado": "NÃO", "imagem": "IMG-5", "obs": "6,5" },
+  { "item": "TAMPA CABEÇOTE 1", "cautelado": "NÃO", "imagem": "IMG-6", "obs": "" },
+  { "item": "TAMPA CABEÇOTE 2", "cautelado": "NÃO", "imagem": "IMG-7", "obs": "" },
+  { "item": "VALVULA ADMISSÃO 1", "cautelado": "NÃO", "imagem": "IMG-8", "obs": "" },
+  { "item": "VALVULA ADMISSÃO 2", "cautelado": "NÃO", "imagem": "IMG-9", "obs": "" },
+  { "item": "VALVULA ADMISSÃO 3", "cautelado": "NÃO", "imagem": "IMG-10", "obs": "" },
+  { "item": "VALVULA ADMISSÃO 4", "cautelado": "NÃO", "imagem": "IMG-11", "obs": "" },
+  { "item": "VELA DE INGUINIÇÃO", "cautelado": "NÃO", "imagem": "IMG-12", "obs": "" },
+  { "item": "ELEMENTO SECUNDARIO 1", "cautelado": "NÃO", "imagem": "IMG-13", "obs": "" },
+  { "item": "ELEMENTO SECUNDARIO 2", "cautelado": "NÃO", "imagem": "IMG-14", "obs": "" },
+  { "item": "ELEMENTO SECUNDARIO 3", "cautelado": "NÃO", "imagem": "IMG-15", "obs": "" },
+  { "item": "VOLTIMETRO ANALOGICO", "cautelado": "NÃO", "imagem": "IMG-16", "obs": "" },
+  { "item": "VOLTIMETRO ANALOGICO", "cautelado": "NÃO", "imagem": "IMG-17", "obs": "" },
+  { "item": "CHAVE DE PARTIDA 1", "cautelado": "NÃO", "imagem": "IMG-18", "obs": "" },
+  { "item": "CHAVE DE PARTIDA 2", "cautelado": "NÃO", "imagem": "IMG-19", "obs": "" },
+  { "item": "SENSOR DE TEMPERATURA", "cautelado": "NÃO", "imagem": "IMG-20", "obs": "" },
+  { "item": "TORNEIRA DE COMBUSTIVEL 1", "cautelado": "NÃO", "imagem": "IMG-21", "obs": "" },
+  { "item": "TORNEIRA DE COMBUSTIVEL 2", "cautelado": "NÃO", "imagem": "IMG-22", "obs": "" },
+  { "item": "TORNEIRA DE COMBUSTIVEL 3", "cautelado": "NÃO", "imagem": "IMG-23", "obs": "" },
+  { "item": "CACHIMBO VELA DE MOTOR", "cautelado": "NÃO", "imagem": "IMG-24", "obs": "" },
+  { "item": "MEDIDOR PORTAVEIS 1", "cautelado": "NÃO", "imagem": "IMG-25", "obs": "" },
+  { "item": "MEDIDOR PORTAVEIS 2", "cautelado": "NÃO", "imagem": "IMG-26", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 1", "cautelado": "NÃO", "imagem": "IMG-27", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 2", "cautelado": "NÃO", "imagem": "IMG-28", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 3", "cautelado": "NÃO", "imagem": "IMG-29", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 4", "cautelado": "NÃO", "imagem": "IMG-30", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 5", "cautelado": "NÃO", "imagem": "IMG-31", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 6", "cautelado": "NÃO", "imagem": "IMG-32", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 7", "cautelado": "NÃO", "imagem": "IMG-33", "obs": "" },
+  { "item": "ASPIRADOR LIMPEZA 8", "cautelado": "NÃO", "imagem": "IMG-34", "obs": "" },
+  { "item": "ELEMENTO PH 1", "cautelado": "NÃO", "imagem": "IMG-35", "obs": "" },
+  { "item": "ELEMENTO PH 2", "cautelado": "NÃO", "imagem": "IMG-36", "obs": "" },
+  { "item": "ELEMENTO PH 3", "cautelado": "NÃO", "imagem": "IMG-37", "obs": "" },
+  { "item": "ELEMENTO PH 4", "cautelado": "NÃO", "imagem": "IMG-38", "obs": "" },
+  { "item": "ELEMENTO PH 5", "cautelado": "NÃO", "imagem": "IMG-39", "obs": "" },
+  { "item": "ELEMENTO PH 6", "cautelado": "NÃO", "imagem": "IMG-40", "obs": "" },
+  { "item": "PENEIRA METALICA 1", "cautelado": "NÃO", "imagem": "IMG-41", "obs": "" },
+  { "item": "PENEIRA METALICA 2", "cautelado": "NÃO", "imagem": "IMG-42", "obs": "" },
+  { "item": "PENEIRA METALICA 3", "cautelado": "NÃO", "imagem": "IMG-43", "obs": "" },
+  { "item": "PENEIRA METALICA 4", "cautelado": "NÃO", "imagem": "IMG-44", "obs": "" },
+  { "item": "BATERIA 1", "cautelado": "NÃO", "imagem": "IMG-45", "obs": "" },
+  { "item": "BATERIA 2", "cautelado": "NÃO", "imagem": "IMG-46", "obs": "" }
+]
