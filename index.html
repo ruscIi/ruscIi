@@ -30,14 +30,18 @@
             try {
                 const response = await fetch(urlPlanilha);
                 const data = await response.json();
-                const itemEncontrado = data.find(item => item.item === id);
+
+                // Ignorar a primeira linha (cabeçalho)
+                const dados = data.slice(1);
+
+                // Buscar o item com base no valor do QR code (coluna "MATERIAL PARA MANUTENÇÃO GERADORES")
+                const itemEncontrado = dados.find(item => item["MATERIAL PARA MANUTENÇÃO GERADORES"] === id);
 
                 if (itemEncontrado) {
                     document.getElementById("dados-item").innerHTML = `
-                        <h2>${itemEncontrado.item}</h2>
-                        <p><strong>Cautelado:</strong> ${itemEncontrado.cautelado}</p>
-                        <p><strong>Imagem:</strong> <img src="${itemEncontrado.imagem}" width="200"></p>
-                        <p><strong>Observação:</strong> ${itemEncontrado.obs || "Sem observação"}</p>
+                        <h2>${itemEncontrado["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
+                        <p><strong>Material para Manutenção P/ Trat:</strong> ${itemEncontrado["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
+                        <p><strong>Material Cl I:</strong> ${itemEncontrado["MATERIAL CL I"] || "Sem informação"}</p>
                     `;
                 } else {
                     document.getElementById("dados-item").innerHTML = "Item não encontrado!";
