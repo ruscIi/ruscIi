@@ -3,20 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanner de QR Code - Manutenção Geradores</title>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+    <title>Dados do Item</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
-        #qr-video {
-            border: 2px solid #333;
-            border-radius: 10px;
-            margin: 20px auto;
-        }
-        #resultado {
+        #dados-item {
             padding: 20px;
             background: #f0f0f0;
             border-radius: 10px;
@@ -26,68 +20,42 @@
     </style>
 </head>
 <body>
-    <h1>Escaneie o QR Code</h1>
-    <video id="qr-video" width="300" height="300" autoplay></video>
-    <div id="resultado">Aponte a câmera para o QR code...</div>
+    <h1>Dados do Item</h1>
+    <div id="dados-item">Carregando...</div>
 
     <script>
-        // Elementos da página
-        const video = document.getElementById('qr-video');
-        const resultadoDiv = document.getElementById('resultado');
+        // Função para buscar os dados na planilha
+        async function buscarDadosItem(id) {
+            const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
+            try {
+                const response = await fetch(urlPlanilha);
+                const data = await response.json();
+                const itemEncontrado = data.find(item => item.item === id);
 
-        // Configurar a câmera
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
-            .then(stream => {
-                video.srcObject = stream;
-                video.play();
-                requestAnimationFrame(lerQRCode);
-            })
-            .catch(err => {
-                resultadoDiv.innerHTML = "Erro ao acessar a câmera: " + err.message;
-            });
-
-        // Função para ler o QR code
-        function lerQRCode() {
-            if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                // Criar um canvas invisível para processar a imagem
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // Extrair dados do QR code
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
-
-                if (qrCode) {
-                    // URL da planilha no SheetDB
-                    const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
-
-                    // Buscar dados no SheetDB
-                    fetch(urlPlanilha)
-                        .then(response => response.json())
-                        .then(data => {
-                            // Buscar o item com base no valor do QR code (coluna A)
-                            const itemEncontrado = data.find(item => item.item === qrCode.data);
-
-                            if (itemEncontrado) {
-                                resultadoDiv.innerHTML = `
-                                    <h2>${itemEncontrado.item}</h2>
-                                    <p><strong>Cautelado:</strong> ${itemEncontrado.cautelado}</p>
-                                    <p><strong>Imagem:</strong> <img src="${itemEncontrado.imagem}" width="200"></p>
-                                    <p><strong>Observação:</strong> ${itemEncontrado.obs || "Sem observação"}</p>
-                                `;
-                            } else {
-                                resultadoDiv.innerHTML = "Item não encontrado na planilha!";
-                            }
-                        })
-                        .catch(err => {
-                            resultadoDiv.innerHTML = "Erro ao carregar a planilha: " + err.message;
-                        });
+                if (itemEncontrado) {
+                    document.getElementById("dados-item").innerHTML = `
+                        <h2>${itemEncontrado.item}</h2>
+                        <p><strong>Cautelado:</strong> ${itemEncontrado.cautelado}</p>
+                        <p><strong>Imagem:</strong> <img src="${itemEncontrado.imagem}" width="200"></p>
+                        <p><strong>Observação:</strong> ${itemEncontrado.obs || "Sem observação"}</p>
+                    `;
+                } else {
+                    document.getElementById("dados-item").innerHTML = "Item não encontrado!";
                 }
+            } catch (err) {
+                document.getElementById("dados-item").innerHTML = "Erro ao carregar os dados: " + err.message;
             }
-            requestAnimationFrame(lerQRCode);
+        }
+
+        // Ler o parâmetro "id" da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (id) {
+            // Buscar os dados do item
+            buscarDadosItem(id);
+        } else {
+            document.getElementById("dados-item").innerHTML = "Nenhum item especificado!";
         }
     </script>
 </body>
