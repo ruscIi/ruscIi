@@ -23,6 +23,10 @@
             margin: 10px 0;
             text-align: left;
         }
+        .item a {
+            text-decoration: none;
+            color: inherit;
+        }
         .item h2 {
             margin: 0 0 10px 0;
         }
@@ -50,9 +54,11 @@
                 const listaItens = document.getElementById("lista-itens");
                 listaItens.innerHTML = dados.map(item => `
                     <li class="item">
-                        <h2>${item["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
-                        <p><strong>Material para Manutenção P/ Trat:</strong> ${item["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
-                        <p><strong>Material Cl I:</strong> ${item["MATERIAL CL I"] || "Sem informação"}</p>
+                        <a href="detalhes.html?id=${encodeURIComponent(item["MATERIAL PARA MANUTENÇÃO GERADORES"])}">
+                            <h2>${item["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
+                            <p><strong>Material para Manutenção P/ Trat:</strong> ${item["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
+                            <p><strong>Material Cl I:</strong> ${item["MATERIAL CL I"] || "Sem informação"}</p>
+                        </a>
                     </li>
                 `).join("");
             } catch (err) {
