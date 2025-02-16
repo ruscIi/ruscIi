@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scanner de QR Code - Pinheiro</title>
+    <!-- Biblioteca para ler QR codes -->
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #qr-video {
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin: 20px auto;
+        }
+        #resultado {
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Escaneie o QR Code</h1>
+    <video id="qr-video" width="300" height="300" autoplay></video>
+    <div id="resultado">Aponte a câmera para o QR code...</div>
+
+    <script>
+        // Elementos da página
+        const video = document.getElementById('qr-video');
+        const resultadoDiv = document.getElementById('resultado');
+
+        // Configurar a câmera
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.play();
+                requestAnimationFrame(lerQRCode);
+            })
+            .catch(err => {
+                resultadoDiv.innerHTML = "Erro ao acessar a câmera: " + err.message;
+            });
+
+        // Função para ler o QR code
+        function lerQRCode() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                // Criar um canvas invisível para processar a imagem
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Extrair dados do QR code
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+
+                if (qrCode) {
+                    // Buscar dados no JSON
+                    fetch('Pinheiro.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            const itemEncontrado = data.find(item => item.id === qrCode.data);
+                            if (itemEncontrado) {
+                                resultadoDiv.innerHTML = `
+                                    <h2>${itemEncontrado.nome}</h2>
+                                    <p>${itemEncontrado.descricao || "Sem descrição"}</p>
+                                    ${itemEncontrado.imagem ? `<img src="${itemEncontrado.imagem}" width="200">` : ""}
+                                `;
+                            } else {
+                                resultadoDiv.innerHTML = "Item não encontrado no JSON!";
+                            }
+                        })
+                        .catch(err => {
+                            resultadoDiv.innerHTML = "Erro ao carregar o JSON: " + err.message;
+                        });
+                }
+            }
+            requestAnimationFrame(lerQRCode);
+        }
+    </script>
+</body>
+</html>
