@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanner de QR Code - Pinheiro</title>
-    <!-- Biblioteca para ler QR codes -->
+    <title>Scanner de QR Code - Manutenção Geradores</title>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.min.js"></script>
     <style>
         body {
@@ -62,23 +61,29 @@
                 const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
 
                 if (qrCode) {
-                    // Buscar dados no JSON
-                    fetch('Pinheiro.json')
+                    // URL da planilha no SheetDB
+                    const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
+
+                    // Buscar dados no SheetDB
+                    fetch(urlPlanilha)
                         .then(response => response.json())
                         .then(data => {
-                            const itemEncontrado = data.find(item => item.id === qrCode.data);
+                            // Buscar o item com base no valor do QR code (coluna A)
+                            const itemEncontrado = data.find(item => item.item === qrCode.data);
+
                             if (itemEncontrado) {
                                 resultadoDiv.innerHTML = `
-                                    <h2>${itemEncontrado.nome}</h2>
-                                    <p>${itemEncontrado.descricao || "Sem descrição"}</p>
-                                    ${itemEncontrado.imagem ? `<img src="${itemEncontrado.imagem}" width="200">` : ""}
+                                    <h2>${itemEncontrado.item}</h2>
+                                    <p><strong>Cautelado:</strong> ${itemEncontrado.cautelado}</p>
+                                    <p><strong>Imagem:</strong> <img src="${itemEncontrado.imagem}" width="200"></p>
+                                    <p><strong>Observação:</strong> ${itemEncontrado.obs || "Sem observação"}</p>
                                 `;
                             } else {
-                                resultadoDiv.innerHTML = "Item não encontrado no JSON!";
+                                resultadoDiv.innerHTML = "Item não encontrado na planilha!";
                             }
                         })
                         .catch(err => {
-                            resultadoDiv.innerHTML = "Erro ao carregar o JSON: " + err.message;
+                            resultadoDiv.innerHTML = "Erro ao carregar a planilha: " + err.message;
                         });
                 }
             }
