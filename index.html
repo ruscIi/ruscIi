@@ -47,9 +47,9 @@
             }
         }
 
-        // Ler o parâmetro "id" da URL
+        // Ler o parâmetro "id" da URL e decodificar
         const urlParams = new URLSearchParams(window.location.search);
-        const id = urlParams.get('id');
+        const id = decodeURIComponent(urlParams.get('id'));
 
         if (id) {
             // Buscar os dados do item
