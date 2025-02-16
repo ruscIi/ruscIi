@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Item</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #detalhes-item {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        #detalhes-item h2 {
+            margin-top: 0;
+        }
+        #detalhes-item p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Detalhes do Item</h1>
+    <div id="detalhes-item">Carregando...</div>
+
+    <script>
+        // Função para buscar os detalhes do item
+        async function carregarDetalhes() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = decodeURIComponent(urlParams.get('id'));
+
+            if (id) {
+                const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
+                try {
+                    const response = await fetch(urlPlanilha);
+                    const data = await response.json();
+
+                    // Ignorar a primeira linha (cabeçalho)
+                    const dados = data.slice(1);
+
+                    // Buscar o item com base no ID
+                    const itemEncontrado = dados.find(item => item["MATERIAL PARA MANUTENÇÃO GERADORES"] === id);
+
+                    if (itemEncontrado) {
+                        document.getElementById("detalhes-item").innerHTML = `
+                            <h2>${itemEncontrado["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
+                            <p><strong>Material para Manutenção P/ Trat:</strong> ${itemEncontrado["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
+                            <p><strong>Material Cl I:</strong> ${itemEncontrado["MATERIAL CL I"] || "Sem informação"}</p>
+                            <p><strong>Imagem:</strong> <img src="${itemEncontrado["IMAGEM"]}" width="200"></p>
+                            <p><strong>Observação:</strong> ${itemEncontrado["OBS"] || "Sem observação"}</p>
+                        `;
+                    } else {
+                        document.getElementById("detalhes-item").innerHTML = "Item não encontrado!";
+                    }
+                } catch (err) {
+                    document.getElementById("detalhes-item").innerHTML = "Erro ao carregar os dados: " + err.message;
+                }
+            } else {
+                document.getElementById("detalhes-item").innerHTML = "Nenhum item especificado!";
+            }
+        }
+
+        // Carregar os detalhes ao abrir a página
+        carregarDetalhes();
+    </script>
+</body>
+</html>
