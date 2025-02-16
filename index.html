@@ -3,29 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dados do Item</title>
+    <title>Lista de Itens</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             padding: 20px;
         }
-        #dados-item {
-            padding: 20px;
-            background: #f0f0f0;
-            border-radius: 10px;
+        #lista-itens {
+            list-style-type: none;
+            padding: 0;
             max-width: 600px;
             margin: 0 auto;
+        }
+        .item {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .item h2 {
+            margin: 0 0 10px 0;
+        }
+        .item p {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <h1>Dados do Item</h1>
-    <div id="dados-item">Carregando...</div>
+    <h1>Lista de Itens</h1>
+    <ul id="lista-itens">Carregando...</ul>
 
     <script>
-        // Função para buscar os dados na planilha
-        async function buscarDadosItem(id) {
+        // Função para buscar e exibir os dados da planilha
+        async function carregarItens() {
             const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
             try {
                 const response = await fetch(urlPlanilha);
@@ -34,33 +46,22 @@
                 // Ignorar a primeira linha (cabeçalho)
                 const dados = data.slice(1);
 
-                // Buscar o item com base no valor do QR code (coluna "MATERIAL PARA MANUTENÇÃO GERADORES")
-                const itemEncontrado = dados.find(item => item["MATERIAL PARA MANUTENÇÃO GERADORES"] === id);
-
-                if (itemEncontrado) {
-                    document.getElementById("dados-item").innerHTML = `
-                        <h2>${itemEncontrado["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
-                        <p><strong>Material para Manutenção P/ Trat:</strong> ${itemEncontrado["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
-                        <p><strong>Material Cl I:</strong> ${itemEncontrado["MATERIAL CL I"] || "Sem informação"}</p>
-                    `;
-                } else {
-                    document.getElementById("dados-item").innerHTML = "Item não encontrado!";
-                }
+                // Gerar a lista de itens
+                const listaItens = document.getElementById("lista-itens");
+                listaItens.innerHTML = dados.map(item => `
+                    <li class="item">
+                        <h2>${item["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
+                        <p><strong>Material para Manutenção P/ Trat:</strong> ${item["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
+                        <p><strong>Material Cl I:</strong> ${item["MATERIAL CL I"] || "Sem informação"}</p>
+                    </li>
+                `).join("");
             } catch (err) {
-                document.getElementById("dados-item").innerHTML = "Erro ao carregar os dados: " + err.message;
+                document.getElementById("lista-itens").innerHTML = "Erro ao carregar os dados: " + err.message;
             }
         }
 
-        // Ler o parâmetro "id" da URL e decodificar
-        const urlParams = new URLSearchParams(window.location.search);
-        const id = decodeURIComponent(urlParams.get('id'));
-
-        if (id) {
-            // Buscar os dados do item
-            buscarDadosItem(id);
-        } else {
-            document.getElementById("dados-item").innerHTML = "Nenhum item especificado!";
-        }
+        // Carregar os itens ao abrir a página
+        carregarItens();
     </script>
 </body>
 </html>
