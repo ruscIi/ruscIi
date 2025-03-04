@@ -1,73 +1,48 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Itens</title>
+    <title>Filmes - VidBinge</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        #lista-itens {
-            list-style-type: none;
-            padding: 0;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .item {
-            background: #f0f0f0;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            text-align: left;
-        }
-        .item a {
-            text-decoration: none;
-            color: inherit;
-        }
-        .item h2 {
-            margin: 0 0 10px 0;
-        }
-        .item p {
-            margin: 5px 0;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; background: #222; color: white; }
+        #filmes { display: flex; flex-wrap: wrap; justify-content: center; }
+        .filme { width: 200px; margin: 10px; padding: 10px; background: #333; border-radius: 5px; }
+        img { width: 100%; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <h1>Lista de Itens</h1>
-    <ul id="lista-itens">Carregando...</ul>
+    <h1>Lista de Filmes</h1>
+    <div id="filmes">Carregando...</div>
 
     <script>
-        // Função para buscar e exibir os dados da planilha
-        async function carregarItens() {
-            const urlPlanilha = "https://sheetdb.io/api/v1/labjd7zhv0rbt";
+        async function carregarFilmes() {
+            const url = "https://vidbinge.dev/api/filmes"; // Substitua pela URL correta da API
             try {
-                const response = await fetch(urlPlanilha);
-                const data = await response.json();
+                let response = await fetch(url);
+                let data = await response.json();
+                
+                let container = document.getElementById("filmes");
+                container.innerHTML = ""; // Limpa o texto "Carregando..."
 
-                // Ignorar a primeira linha (cabeçalho)
-                const dados = data.slice(1);
+                data.filmes.forEach(filme => {
+                    let div = document.createElement("div");
+                    div.className = "filme";
+                    div.innerHTML = `
+                        <img src="${filme.poster}" alt="${filme.titulo}">
+                        <h3>${filme.titulo}</h3>
+                        <p>${filme.ano}</p>
+                        <a href="${filme.link}" target="_blank">Assistir</a>
+                    `;
+                    container.appendChild(div);
+                });
 
-                // Gerar a lista de itens
-                const listaItens = document.getElementById("lista-itens");
-                listaItens.innerHTML = dados.map(item => `
-                    <li class="item">
-                        <a href="detalhes.html?id=${encodeURIComponent(item["MATERIAL PARA MANUTENÇÃO GERADORES"])}">
-                            <h2>${item["MATERIAL PARA MANUTENÇÃO GERADORES"]}</h2>
-                            <p><strong>Material para Manutenção P/ Trat:</strong> ${item["MATERIAL PARA MANUTENÇÃO P TRAT"] || "Sem informação"}</p>
-                            <p><strong>Material Cl I:</strong> ${item["MATERIAL CL I"] || "Sem informação"}</p>
-                        </a>
-                    </li>
-                `).join("");
-            } catch (err) {
-                document.getElementById("lista-itens").innerHTML = "Erro ao carregar os dados: " + err.message;
+            } catch (error) {
+                document.getElementById("filmes").innerHTML = "Erro ao carregar filmes.";
             }
         }
 
-        // Carregar os itens ao abrir a página
-        carregarItens();
+        carregarFilmes();
     </script>
 </body>
 </html>
